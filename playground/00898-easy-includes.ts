@@ -18,7 +18,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Includes<T extends readonly any[], U> = any
+type Includes<T extends readonly any[], U> = T extends [infer F, ...infer R] ? Equal<F, U> extends true ? true : Includes<R, U> : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -41,6 +41,15 @@ type cases = [
   Expect<Equal<Includes<[null], undefined>, false>>,
   Expect<Equal<Includes<[undefined], null>, false>>,
 ]
+
+const Arr = ['kar', 'aa'] as const
+type ArrVs = (typeof Arr)[number]
+
+type A = { a: 'A' }
+type B = {}
+type C = { a: 'A'; c: 'C' }
+type D = { a: 'A'; c: 'C'; d: 'D' }
+type Z = boolean extends true ? true : false
 
 /* _____________ Further Steps _____________ */
 /*
